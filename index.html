@@ -319,16 +319,21 @@
       gap: 26px; align-items: start;
     }
 
+    /* ── 큰 숫자: 카드 위로 올라오도록 absolute 배치 ── */
+    .stage-card-wrapper {
+      position: relative;
+    }
     .stage-number-top {
-      position: relative; z-index: 1;
-      display: flex; justify-content: flex-end;
-      margin-bottom: -45px;
+      position: absolute;
+      top: -38px;
+      right: 16px;
+      z-index: 0;
       pointer-events: none;
     }
     .stage-number-top-text {
       font-size: clamp(4.4rem, 8vw, 6.6rem);
       line-height: 0.8; font-weight: 900; letter-spacing: -0.08em;
-      color: rgba(255,255,255,0.08); user-select: none; padding-right: 16px;
+      color: rgba(255,255,255,0.08); user-select: none;
     }
 
     .booth-card {
@@ -339,6 +344,7 @@
       padding: 26px; text-align: left; color: var(--text); cursor: pointer;
       transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
       isolation: isolate;
+      z-index: 1;
     }
     .booth-card::before {
       content: ""; position: absolute; inset: 0;
@@ -942,7 +948,7 @@
 
     function renderBooths() {
       stageGrid.innerHTML = boothData.map((booth) => `
-        <div>
+        <div class="stage-card-wrapper">
           <div class="stage-number-top" aria-hidden="true">
             <span class="stage-number-top-text">${booth.stageNumber}</span>
           </div>
