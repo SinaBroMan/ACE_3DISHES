@@ -391,24 +391,33 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px;
+      padding: 14px 14px 10px;
       color: #e6efff;
       font-weight: 700;
+      font-size: 0.85rem;
+      gap: 6px;
+    }
+
+    .mini-booth-step {
+      white-space: nowrap;
     }
 
     .mini-tag {
-      font-size: 0.74rem;
+      font-size: 0.68rem;
       color: rgba(255,255,255,0.84);
-      padding: 6px 10px;
+      padding: 5px 8px;
       border-radius: 999px;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.08);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .mini-center {
       position: absolute;
-      inset: 74px 14px 16px;
+      inset: 68px 14px 16px;
       border-radius: 18px;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
@@ -598,10 +607,29 @@
       align-items: stretch;
     }
 
+    .stage-number-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: -20px;
+      pointer-events: none;
+    }
+
+    .stage-number-top-text {
+      font-size: clamp(4.4rem, 8vw, 6.6rem);
+      line-height: 0.8;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      color: rgba(255,255,255,0.08);
+      user-select: none;
+      padding-right: 16px;
+    }
+
     .booth-card {
       position: relative;
       overflow: hidden;
-      min-height: 560px;
+      min-height: 520px;
       border-radius: var(--radius-xl);
       border: 1px solid rgba(255,255,255,0.12);
       background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
@@ -690,19 +718,6 @@
       color: var(--muted);
       font-size: 0.85rem;
       font-weight: 700;
-    }
-
-    .stage-number {
-      position: absolute;
-      top: 24px;
-      right: 20px;
-      font-size: clamp(4.4rem, 8vw, 6.6rem);
-      line-height: 0.9;
-      font-weight: 900;
-      letter-spacing: -0.08em;
-      color: rgba(255,255,255,0.08);
-      z-index: 1;
-      user-select: none;
     }
 
     .card-title {
@@ -1411,7 +1426,7 @@
               <div class="mini-connector"></div>
               <div class="mini-booth" data-theme="stage1">
                 <div class="mini-booth-head">
-                  <span>STEP 1</span>
+                  <span class="mini-booth-step">STEP 1</span>
                   <span class="mini-tag">AI 기반 스터디 도구</span>
                 </div>
                 <div class="mini-center">
@@ -1425,7 +1440,7 @@
               </div>
               <div class="mini-booth" data-theme="stage2">
                 <div class="mini-booth-head">
-                  <span>STEP 2</span>
+                  <span class="mini-booth-step">STEP 2</span>
                   <span class="mini-tag">음악</span>
                 </div>
                 <div class="mini-center">
@@ -1437,7 +1452,7 @@
               </div>
               <div class="mini-booth" data-theme="stage3">
                 <div class="mini-booth-head">
-                  <span>STEP 3</span>
+                  <span class="mini-booth-step">STEP 3</span>
                   <span class="mini-tag">대시보드</span>
                 </div>
                 <div class="mini-center">
@@ -1677,23 +1692,27 @@
 
     function renderBooths() {
       stageGrid.innerHTML = boothData.map((booth) => `
-        <button class="booth-card reveal" type="button" data-id="${booth.id}" data-theme="${booth.theme}" aria-label="${booth.level} ${booth.title} 체험 가이드 열기">
-          <div class="stage-number">${booth.stageNumber}</div>
-          <div class="card-top">
-            <span class="level-badge">${booth.level}</span>
-            <span class="level-chip">${booth.chip}</span>
+        <div>
+          <div class="stage-number-top" aria-hidden="true">
+            <span class="stage-number-top-text">${booth.stageNumber}</span>
           </div>
-          <h3 class="card-title">${booth.title}</h3>
-          <div class="card-tool">${booth.tool}</div>
-          <p class="card-desc">${booth.tagline}</p>
-          <div class="booth-visual ${booth.theme}">
-            ${visualMarkup(booth.theme)}
-          </div>
-          <div class="card-footer">
-            <span class="footer-hint">가이드 확인 후 새 창에서 체험하기</span>
-            <span class="footer-arrow" aria-hidden="true">→</span>
-          </div>
-        </button>
+          <button class="booth-card reveal" type="button" data-id="${booth.id}" data-theme="${booth.theme}" aria-label="${booth.level} ${booth.title} 체험 가이드 열기">
+            <div class="card-top">
+              <span class="level-badge">${booth.level}</span>
+              <span class="level-chip">${booth.chip}</span>
+            </div>
+            <h3 class="card-title">${booth.title}</h3>
+            <div class="card-tool">${booth.tool}</div>
+            <p class="card-desc">${booth.tagline}</p>
+            <div class="booth-visual ${booth.theme}">
+              ${visualMarkup(booth.theme)}
+            </div>
+            <div class="card-footer">
+              <span class="footer-hint">가이드 확인 후 새 창에서 체험하기</span>
+              <span class="footer-arrow" aria-hidden="true">→</span>
+            </div>
+          </button>
+        </div>
       `).join('');
     }
 
